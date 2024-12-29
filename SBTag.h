@@ -23,6 +23,7 @@
 #define	IDLEFTICON		48
 #define	IDRIGHTICON		49
 #define	IDCLEARICON		50
+#define	IDREFRESHICON	51
 //---------------------------------------------------------------------------
 
 //IDMAINDIALOG
@@ -62,6 +63,7 @@
 #define IDDESALL		10202
 #define IDALL			10203
 #define IDEXEC			10204
+#define	IDREFRESH		10205
 //---------------------------------------------------------------------------
 #define IDPROGRBAR		10210
 #define IDTABCONTROL	10211

@@ -34,7 +34,7 @@ HBITMAP hBitmap=NULL;
 char *LastDir=NULL;
 char *StartCmd=NULL;
 
-HICON hSelAllIcon, hDesAllIcon, hAllIcon, hExecIcon, hAboutIcon, hUpDateIcon, hTrimIcon, hLeftIcon, hRightIcon, hClearIcon;
+HICON hSelAllIcon, hDesAllIcon, hAllIcon, hExecIcon, hAboutIcon, hUpDateIcon, hTrimIcon, hLeftIcon, hRightIcon, hClearIcon, hRefreshIcon;
 
 BYTE LastTab = 0;
 int Width, Height;
@@ -223,6 +223,7 @@ hSelAllIcon =		LoadImage(hInS,MAKEINTRESOURCE(IDSELALLICON),IMAGE_ICON,16,16,0);
 hDesAllIcon =		LoadImage(hInS,MAKEINTRESOURCE(IDDESALLICON),IMAGE_ICON,16,16,0);
 hAllIcon =			LoadImage(hInS,MAKEINTRESOURCE(IDALLICON),IMAGE_ICON,16,16,0);
 hExecIcon =			LoadImage(hInS,MAKEINTRESOURCE(IDEXECICON),IMAGE_ICON,16,16,0);
+hRefreshIcon =		LoadImage(hInS,MAKEINTRESOURCE(IDREFRESHICON),IMAGE_ICON,16,16,0);
 
 CheckDlgButton(hExec,IDALL,GetKeyInt("Exec","All",0));
 SendDlgItemMessage(hExec, IDALL, WM_SETFONT, SendMessage(hExec, WM_GETFONT, 0, 0), MAKELPARAM(0, 0));
@@ -596,6 +597,12 @@ case WM_COMMAND:
 
 		}
 		break;
+
+	case IDREFRESH:
+		{
+		ListCreate();
+		}
+		break;
 	}
 	break;
 
@@ -629,6 +636,7 @@ case WM_DRAWITEM:
 		case IDSELALL:	DrawButtonWithIcon((LPDRAWITEMSTRUCT)lParam, hSelAllIcon); break;
 		case IDDESALL:	DrawButtonWithIcon((LPDRAWITEMSTRUCT)lParam, hDesAllIcon); break;
 		case IDEXEC:	DrawButtonWithIcon((LPDRAWITEMSTRUCT)lParam, hExecIcon); break;
+		case IDREFRESH:	DrawButtonWithIcon((LPDRAWITEMSTRUCT)lParam, hRefreshIcon); break;
 		}
 	break;
 
@@ -2815,11 +2823,9 @@ for (int i=0; i<5; i++)
 	{	itoa(i,K,10);if (!GetPrivateProfileString("EXEC",K,NULL,R,Size,ini)) strcpy(R,K);
 		tcI.pszText = R;SendDlgItemMessage(hExec,IDTABCONTROL,TCM_INSERTITEM,i,(LPARAM)&tcI);}
 
-for (int i=IDSELALL; i<=IDALL; i++)
+for (int i=IDSELALL; i<=IDREFRESH; i++)
 	{itoa(i,K,10);if (!GetPrivateProfileString("EXEC",K,NULL,R,Size,ini)) strcpy(R,K); SetDlgItemText(hExec,i,R);}
 
-itoa(IDEXEC,K,10);if (!GetPrivateProfileString("EXEC",K,NULL,R,Size,ini)) strcpy(R,K);
-SetDlgItemText(hExec,IDEXEC,R);
 SetDlgItemText(hNameTxt,IDFINDPAST,R);
 SetDlgItemText(hNameTxt,IDCOUNT,R);
 //hExec---------------------------
@@ -2920,6 +2926,9 @@ AddToolTip(GetDlgItem(hGrRen,IDTRIM),IDTRIM,R);
 
 itoa(29,K,10);if (!GetPrivateProfileString("MAIN",K,NULL,R,Size,ini)) strcpy(R,K);
 AddToolTip(GetDlgItem(hNameTxt,IDTRIM2),IDTRIM2,R);
+
+itoa(30,K,10);if (!GetPrivateProfileString("MAIN",K,NULL,R,Size,ini)) strcpy(R,K);
+AddToolTip(GetDlgItem(hExec,IDREFRESH),IDREFRESH,R);
 //--------hTip--------
 }
 //---------------------------------------------------------------------------
